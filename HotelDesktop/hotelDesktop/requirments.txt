@@ -1,0 +1,5 @@
+customtkinter
+sqlalchemy
+matplotlib
+openpyxl
+reportlab
