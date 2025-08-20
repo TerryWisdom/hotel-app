@@ -1,6 +1,6 @@
-from models.models import Room
+from hotelDesktop.models.models import Room
 from sqlalchemy.orm import sessionmaker
-from appbackend.databaseconnect import SessionLocal
+from hotelDesktop.appbackend.databaseconnect import SessionLocal
 
 class GetRooms():
     
@@ -13,12 +13,17 @@ class GetRooms():
             session.close()
             
     def to_string():
+        room_list=[]
         for u in GetRooms.getRooms():
-            rooms={
+            room_dict={
                 'id':u.id,
-                'name':u.name,
-                'email':u.email
+                'number':u.number,
+                'room_type':u.room_type,
+                'price':u.price,
+                'status':u.status,
             }
-        return rooms
+            room_list.append(room_dict)
+        return room_list
     
-    
+room=GetRooms.to_string()
+print(room)

@@ -24,15 +24,11 @@ class LandingPage(ctk.CTk):
         
         #sideButtons
         buttons=['Dashboard','Rooms','Booking','Guests','Reports']
+        
         button_frame=ctk.CTkFrame(self.sidebar,fg_color='transparent')
         button_frame.pack(expand=True)
         
-        for btn in buttons:
-            button=ctk.CTkButton(button_frame,text=btn,
-                                 width=186,height=47, fg_color='#635353',
-                                 corner_radius=10,command=lambda name=btn: self.show_page(name),text_color='white',hover_color='#534343')
-            button.pack(pady=10,padx=20,fill='x')
-        
+
         #main content area
         self.main_content=ctk.CTkFrame(self,corner_radius=15,fg_color='#635353')
         self.main_content.grid(row=0,column=1,sticky='nswe',padx=10,pady=10)
@@ -40,6 +36,23 @@ class LandingPage(ctk.CTk):
         self.label=ctk.CTkLabel(self.main_content,text='Welcome to Hotel Management System',
                                 font=('Arial',20),text_color='black')
         self.label.pack(pady=20)
+        
+        for btn in buttons:
+            button=ctk.CTkButton(button_frame,text=btn,
+                                 width=186,height=47, fg_color='#635353',
+                                 corner_radius=10,command=lambda name=btn: self.show_page(name),text_color='white',hover_color='#534343')
+            button.pack(pady=10,padx=20,fill='x')
+        self.current_frame=None
+    
+    '''def show_page(self, page_name: str):
+        from hotelDesktop.templates.display import bookingDisplay, dashBoardDisplay, guestDisplay,roomDisplay
+        
+        match page_name:
+            case 'Dashboard':
+                return dashBoardDisplay.'''
+        
+            
+      
             
         
         

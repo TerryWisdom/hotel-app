@@ -1,6 +1,7 @@
 from sqlalchemy import Column,Integer,String, Date, ForeignKey, Float,Boolean
-from appbackend.databaseconnect import Base, engine
+from hotelDesktop.appbackend.databaseconnect import Base, engine
 from sqlalchemy.orm import relationship
+
 
 class Guest(Base):
     __tablename__='guests'
@@ -21,6 +22,9 @@ class Booking(Base):
     check_out=Column(Date,nullable=False)
     amount=Column(Float,default=0.0)
     paid=Column(Boolean,default=False)
+    guest=relationship('Guest',back_populates='bookings')
+    room=relationship('Room',back_populates='booking')
+    
     
     
 class Room(Base):
