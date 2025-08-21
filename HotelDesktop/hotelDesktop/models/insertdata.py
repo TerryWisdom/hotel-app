@@ -30,11 +30,11 @@ def addbookings(room_id,guest_id,check_in,check_out,amount,paid):
 
     
 
-'''room1=addrooms('101','Standard',2000000.00,'available')
+room1=addrooms('101','Standard',2000000.00,'available')
 room2=addrooms('102','Suite',45000.00,'available')
 room3=addrooms('103','Deluxe',23334000.00,'available')
 room4=addrooms('104','Suite',20040.00,'available')
-room5=addrooms('105','Standard',34000.00,'available')'''
+room5=addrooms('105','Standard',34000.00,'available')
 
 
 guest1=addguests('Terry Wisdom','09033819097','terrywisdom683@gmail.com')

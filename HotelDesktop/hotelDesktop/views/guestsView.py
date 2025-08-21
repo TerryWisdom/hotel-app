@@ -10,20 +10,25 @@ class GetGuest():
             guest=session.query(Guest).all()
             return guest
         finally:
-            session.close()
+            quit
             
     def to_string():
         guest_list=[]
-        for u in GetGuest.getGuest():
-            guest_dict={
-                'id':u.id,
-                'name':u.name,
-                'phone':u.phone,
-                'email':u.email,
-                
-            }
+        for guest in GetGuest.getGuest():
+            if guest.bookings:
+                for booking in guest.bookings:
+                    guest_dict={
+                        'id':guest.id,
+                        'name':guest.name,
+                        'phone':guest.phone,
+                        'email':guest.email,
+                        'room':booking.room.number,
+                        'room_id':booking.room.id,
+                        'check_in':booking.check_in,
+                        'check_out':booking.check_out,
+                        
+                    }
             guest_list.append(guest_dict)
         return guest_list
     
 guest=GetGuest.to_string()
-print(guest)

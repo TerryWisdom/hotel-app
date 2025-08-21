@@ -10,7 +10,7 @@ class GetRooms():
             rooms=session.query(Room).all()
             return rooms
         finally:
-            session.close()
+            quit
             
     def to_string():
         room_list=[]
@@ -26,4 +26,3 @@ class GetRooms():
         return room_list
     
 room=GetRooms.to_string()
-print(room)
