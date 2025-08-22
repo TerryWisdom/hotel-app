@@ -1,6 +1,6 @@
-from hotelDesktop.models.models import Guest
+from models.models import Guest
 from sqlalchemy.orm import sessionmaker
-from hotelDesktop.appbackend.databaseconnect import SessionLocal
+from appbackend.databaseconnect import SessionLocal
 
 class GetGuest():
     

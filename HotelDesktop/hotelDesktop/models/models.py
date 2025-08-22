@@ -1,5 +1,5 @@
 from sqlalchemy import Column,Integer,String, Date, ForeignKey, Float,Boolean
-from hotelDesktop.appbackend.databaseconnect import Base, engine
+from appbackend.databaseconnect import Base, engine
 from sqlalchemy.orm import relationship
 
 

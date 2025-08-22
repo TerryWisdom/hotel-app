@@ -1,1 +1,1 @@
-#from hotelDesktop.views.dashboardView import
+from views import dashboardView,guestsView, roomView

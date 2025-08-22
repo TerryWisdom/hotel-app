@@ -1,10 +1,17 @@
 import customtkinter as ctk
+import sys,os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 
 class LandingPage(ctk.CTk):
+    tools=[{'fgcolor':'#635353'}]
+    
+    
     def __init__(self):
         super().__init__()
+        
+        
 
         #app setup
         self.title('Hotel Management')
@@ -23,7 +30,12 @@ class LandingPage(ctk.CTk):
         self.sidebar.grid(row=0,column=0,sticky='ns',padx=10,pady=10)
         
         #sideButtons
-        buttons=['Dashboard','Rooms','Booking','Guests','Reports']
+        self.buttons={'Dashboard':self.open_dashboard,
+                      'Rooms':self.open_rooms,
+                      'Booking':self.open_booking,
+                      'Guests':self.open_guest,
+                      'Reports':self.open_reports
+                    }
         
         button_frame=ctk.CTkFrame(self.sidebar,fg_color='transparent')
         button_frame.pack(expand=True)
@@ -37,23 +49,41 @@ class LandingPage(ctk.CTk):
                                 font=('Arial',20),text_color='black')
         self.label.pack(pady=20)
         
-        for btn in buttons:
+        for btn, command in self.buttons.items():
             button=ctk.CTkButton(button_frame,text=btn,
                                  width=186,height=47, fg_color='#635353',
-                                 corner_radius=10,command=lambda name=btn: self.show_page(name),text_color='white',hover_color='#534343')
+                                 corner_radius=10,command=command,text_color='white',hover_color='#534343')
             button.pack(pady=10,padx=20,fill='x')
-        self.current_frame=None
+        
+        self.content_frame=None
+        
     
-    '''def show_page(self, page_name: str):
-        from hotelDesktop.templates.display import bookingDisplay, dashBoardDisplay, guestDisplay,roomDisplay
-        
-        match page_name:
-            case 'Dashboard':
-                return dashBoardDisplay.'''
-        
-            
-      
-            
+    
+    def open_dashboard(self):
+        print('hi')
+        from templates.display import dashBoardDisplay
+        dashBoardDisplay(self)
+    
+    def open_guest(self):
+        print('hi')
+        from templates.display import guestDisplay
+        guestDisplay(self)
+    
+    def open_booking(self):
+        print('hi')
+        from templates.display.bookingDisplay import BookingDisplay
+        self.content_frame=BookingDisplay(self)
+        self.content_frame.grid(row=0,column=1,sticky='nsew')
+    
+    def open_rooms(self):
+        print('hi')
+        from templates.display import roomDisplay
+        roomDisplay(self)
+    
+    def open_reports(self):
+        print('hi')
+        from templates.display import reportDisplay
+        reportDisplay(self)
         
         
 

@@ -1,6 +1,6 @@
-from hotelDesktop.models.models import Room
+from models.models import Room
 from sqlalchemy.orm import sessionmaker
-from hotelDesktop.appbackend.databaseconnect import SessionLocal
+from appbackend.databaseconnect import SessionLocal
 
 class GetRooms():
     

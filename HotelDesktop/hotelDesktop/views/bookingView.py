@@ -1,6 +1,6 @@
-from hotelDesktop.models.models import Booking
+from models.models import Booking
 from sqlalchemy.orm import sessionmaker
-from hotelDesktop.appbackend.databaseconnect import SessionLocal
+from appbackend.databaseconnect import SessionLocal
 from datetime import time
 
 class GetBookings():

@@ -1,5 +1,5 @@
-from hotelDesktop.appbackend.databaseconnect import SessionLocal
-from hotelDesktop.models.models import Room, Guest, Booking
+from appbackend.databaseconnect import SessionLocal
+from models.models import Room, Guest, Booking
 from datetime import date
 
 
