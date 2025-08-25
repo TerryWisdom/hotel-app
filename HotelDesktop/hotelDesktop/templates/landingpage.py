@@ -15,7 +15,7 @@ class LandingPage(ctk.CTk):
 
         #app setup
         self.title('Hotel Management')
-        self.geometry('1000x600')
+        self.geometry('1024x600')
         
         
         ctk.set_appearance_mode('light')
@@ -61,28 +61,30 @@ class LandingPage(ctk.CTk):
     
     def open_dashboard(self):
         print('hi')
-        from templates.display import dashBoardDisplay
+        from templates.display.Dashboard import dashBoardDisplay
         dashBoardDisplay(self)
     
     def open_guest(self):
         print('hi')
-        from templates.display import guestDisplay
+        from templates.display.Guest import guestDisplay
         guestDisplay(self)
     
     def open_booking(self):
-        print('hi')
-        from templates.display.bookingDisplay import BookingDisplay
+        
+        from templates.display.Booking.bookingDisplay import BookingDisplay
         self.content_frame=BookingDisplay(self)
         self.content_frame.grid(row=0,column=1,sticky='nsew')
+        #self.rowconfigure(0,weight=1)
+        #self.columnconfigure(0,weight=1)
     
     def open_rooms(self):
         print('hi')
-        from templates.display import roomDisplay
+        from templates.display.Room import roomDisplay
         roomDisplay(self)
     
     def open_reports(self):
         print('hi')
-        from templates.display import reportDisplay
+        from templates.display.Report import reportDisplay
         reportDisplay(self)
         
         
