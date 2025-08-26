@@ -46,7 +46,7 @@ class LandingPage(ctk.CTk):
         self.main_content.grid(row=0,column=1,sticky='nswe',padx=10,pady=10)
         
         self.label=ctk.CTkLabel(self.main_content,text='Welcome to Hotel Management System',
-                                font=('Arial',20),text_color='black')
+                                font=('Arial',20),text_color='White')
         self.label.pack(pady=20)
         
         for btn, command in self.buttons.items():
