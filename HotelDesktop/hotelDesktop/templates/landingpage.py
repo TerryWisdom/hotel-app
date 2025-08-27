@@ -70,7 +70,9 @@ class LandingPage(ctk.CTk):
         guestDisplay(self)
     
     def open_booking(self):
-        
+        if self.content_frame is not None:
+            self.content_frame.destroy()
+            
         from templates.display.Booking.bookingDisplay import BookingDisplay
         self.content_frame=BookingDisplay(self)
         self.content_frame.grid(row=0,column=1,sticky='nsew')
@@ -78,9 +80,11 @@ class LandingPage(ctk.CTk):
         #self.columnconfigure(0,weight=1)
     
     def open_rooms(self):
-        print('hi')
-        from templates.display.Room import roomDisplay
-        roomDisplay(self)
+        if self.content_frame is not None:
+            self.content_frame.destroy()
+        from templates.display.Room.roomDisplay import RoomDisplay
+        self.content_frame=RoomDisplay(self)
+        self.content_frame.grid(row=0,column=1,sticky='nswe')
     
     def open_reports(self):
         print('hi')
