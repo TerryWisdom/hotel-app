@@ -8,21 +8,13 @@ class ScrollableFrame(ctk.CTkFrame):
         super().__init__(master,*args,**kwargs)
         
         #Canvas + scroolbar
-        
-        bookingheaderFrame=ctk.CTkFrame(self,fg_color="#635353",width=300,height=30,corner_radius=0)
-        bookingheaderFrame.pack(fill='x')
-        
-        headers = ["GuestId", "RoomId", "RoomNo", "CheckIn","CheckOut","Price","Paid?"]
-        #for header
-        for col, text in enumerate(headers):
-            lbl = ctk.CTkLabel(bookingheaderFrame, text=text, fg_color="#635353", width=100, height=30,font=('Arial',16,'bold'),text_color='white')
-            lbl.grid(row=1, column=col, padx=1, pady=1, sticky="nsew")
+       
         
         self.canvas=tk.Canvas(self,bg='white',highlightthickness=0)
         self.scrollbar=ctk.CTkScrollbar(self,orientation='vertical',command=self.canvas.yview)
-        self.scrollbar.pack(side='left',fill='y')
-        self.canvas.pack(side='left',fill='both',expand=True)
-        
+        self.scrollbar.pack(side='right',fill='y')
+        self.canvas.pack(fill='both',expand=True,padx=10,pady=0)
+
         
         #frame inside canvas
         self.scrollable_frame=ctk.CTkFrame(self.canvas,fg_color='white')
@@ -36,6 +28,14 @@ class ScrollableFrame(ctk.CTkFrame):
         self.canvas.bind_all('<MouseWheel>',self._on_mousewheel)
         self.canvas.bind_all('<Button-4>',self._on_mousewheel)
         self.canvas.bind_all('<Button-5>',self._on_mousewheel)
+        
+                
+        self.canvas.bind(
+            '<Configure>',
+            lambda e: self.canvas.itemconfig(
+                self.scrollable_frame_id,width=e.width
+            )
+        )
         
     
     def _update_scrollregion(self,event=None):
@@ -63,15 +63,19 @@ class BookingDisplay(ctk.CTkFrame):
        
 
         #Create the table frame
-        table_frame = ctk.CTkFrame(self, fg_color="#333333")
+        table_frame = ctk.CTkFrame(self, )
         table_frame.pack(fill="both", expand=True, padx=10, pady=10)
         
-
-        self.Label=ctk.CTkLabel(table_frame,text='Bookings',font=('Arial',22,'bold'),text_color='white')
-        self.Label.pack(anchor='w')
+        self.labelFrame=ctk.CTkFrame(table_frame,corner_radius=0)
+        self.labelFrame.pack(fill='x',pady=10,padx=(6,22))
+        self.labelFrame.columnconfigure(0,weight=2)
+        self.labelFrame.columnconfigure(1,weight=1)        
         
-        self.tabFram=ctk.CTkFrame(table_frame,fg_color='transparent')
-        self.tabFram.pack(anchor='w')
+        self.Label=ctk.CTkLabel(self.labelFrame,text='Bookings',font=('Arial',22,'bold'),text_color='black')
+        self.Label.pack(anchor='w',padx=10,pady=10)
+        
+        self.tabFram=ctk.CTkFrame(table_frame,fg_color='transparent',corner_radius=0)
+        self.tabFram.pack(anchor='w',pady=10)
         self.tabs={
             'All Bookings':self.all_orders,
             'Filled Bookings':self.filled_orders,
@@ -104,6 +108,24 @@ class BookingDisplay(ctk.CTkFrame):
                 lbl.bind('<Leave>',lambda e,l=lbl:self.on_leave(e,l))  
                 self.tab_labels[texts] =lbl
         
+        
+         
+        bookingheaderFrame=ctk.CTkFrame(table_frame,fg_color="#635353",corner_radius=0)
+        bookingheaderFrame.pack(fill='x',padx=(6,22),pady=0)
+        
+        #bookingheaderFrame.columnconfigure(0,weight=2)
+        #bookingheaderFrame.columnconfigure(1,weight=1)
+        
+        
+        
+        self.headers = ["GuestId", "RoomId", "RoomNo", "CheckIn","CheckOut","Price","Paid?"]
+        for col in range(len(self.headers)):
+            bookingheaderFrame.grid_columnconfigure(col,weight=1)
+        #for header
+        for col, text in enumerate(self.headers):
+            lbl = ctk.CTkLabel(bookingheaderFrame, text=text, fg_color="#635353", width=100, height=30,font=('Arial',16,'bold'),text_color='white')
+            lbl.grid(row=0, column=col, padx=1, pady=1, sticky="nsew")
+            
         #Scrollable area
         self.scrollable=ScrollableFrame(table_frame)
         self.scrollable.pack(fill='both',expand='True')
@@ -150,11 +172,16 @@ class BookingDisplay(ctk.CTkFrame):
     def all_orders(self, event=None):
         self.scrollable.clear()        
         for row, record in enumerate(booking, start=1):
+            dataColumnfram=ctk.CTkFrame(self.scrollable.scrollable_frame)
+            dataColumnfram.pack(fill='x',padx=(6,22),pady=1)
             values = [record["guest_id"], record["room_id"], record["room_number"],
                       record["check_in"], record["check_out"],record["amount"],'Yes' if record["paid"] else 'No']
             for col, value in enumerate(values):
-                cell = ctk.CTkLabel(self.scrollable.scrollable_frame, text=value, fg_color="#444444", width=100, height=30,text_color='white')
+                cell = ctk.CTkLabel(dataColumnfram, text=value, fg_color="#444444", width=100, height=30,text_color='white')
                 cell.grid(row=row, column=col, padx=1, pady=1, sticky="nsew")
+                
+            for col in range(len(values)):
+                dataColumnfram.grid_columnconfigure(col, weight=1)
 
 
             
@@ -162,23 +189,33 @@ class BookingDisplay(ctk.CTkFrame):
         self.scrollable.clear()
         self.currentdate=date.today()
         for row,record in enumerate(booking, start=1):
-            if record['check_in'] > self.currentdate and record['check_out'] < self.currentdate:
+            dataColumnfram=ctk.CTkFrame(self.scrollable.scrollable_frame)
+            dataColumnfram.pack(fill='x',padx=(6,22),pady=1)
+            if record['check_in'] < self.currentdate and record['check_out'] < self.currentdate:
                 values = [record["guest_id"], record["room_id"], record["room_number"],
                     record["check_in"], record["check_out"],record["amount"],'Yes' if record["paid"] else 'No']  
                 for col,value in enumerate(values):
-                    cell=ctk.CTkLabel(self.scrollable.scrollable_frame,text=value,fg_color="#444444",width=100, height=30,text_color='white')
+                    cell=ctk.CTkLabel(dataColumnfram,text=value,fg_color="#444444",width=100, height=30,text_color='white')
                     cell.grid(row=row,column=col,padx=1,pady=1,stick='nswe')  
+                    
+                for col in range(len(values)):
+                    dataColumnfram.grid_columnconfigure(col, weight=1)
             
 
     def pending_orders(self, event=None):
         self.scrollable.clear()
         for row, record in enumerate(booking,start=1):
+            dataColumnfram=ctk.CTkFrame(self.scrollable.scrollable_frame)
+            dataColumnfram.pack(fill='x',padx=(6,22),pady=1)
             if record['check_in']>self.currentdate and record['check_out']>self.currentdate:
                 values = [record["guest_id"], record["room_id"], record["room_number"],
                 record["check_in"], record["check_out"],record["amount"],'Yes' if record["paid"] else 'No']     
                 for col,value in enumerate(values):
-                    cell=ctk.CTkLabel(self.scrollable.scrollable_frame,text=value,fg_color="#444444",width=100, height=30,text_color='white')
+                    cell=ctk.CTkLabel(dataColumnfram,text=value,fg_color="#444444",width=100, height=30,text_color='white')
                     cell.grid(row=row,column=col,padx=1,pady=1,stick='nswe')  
+
+                    dataColumnfram.grid_columnconfigure(col, weight=1)
+
                      
         
 

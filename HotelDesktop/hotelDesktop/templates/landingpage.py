@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class LandingPage(ctk.CTk):
-    tools=[{'fgcolor':'#635353'}]
+    TOOLS=[{'fgcolor':'#635353'}]
     
     
     def __init__(self):
@@ -35,7 +35,7 @@ class LandingPage(ctk.CTk):
                       'Booking':self.open_booking,
                       'Guests':self.open_guest,
                       'Reports':self.open_reports
-                    }
+        }
         
         button_frame=ctk.CTkFrame(self.sidebar,fg_color='transparent')
         button_frame.pack(expand=True)
